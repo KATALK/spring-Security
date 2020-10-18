@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: 36-security
+server:
+  port: 8036
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8030/eureka/
+security:
+  oauth2:
+    client:
+      access-token-uri: http://localhost:8034/oauth/token
+      user-authorization-uri: http://localhost:8034/oauth/authorize
+      client-id: clientId
+      client-secret: secret
+      client-authentication-scheme: form
+      use-current-uri: false # 定义false表示默认跳转路径（/login）不生效
+      pre-established-redirect-uri: http://localhost:8036/ #使用自定义跳转路径  前提是use-current-uri必须为false
+      grant-type: authorization_code
+    resource:
+      user-info-uri: http://localhost:8035/user
+      prefer-token-info: false #true表示使用token，false表示使用user

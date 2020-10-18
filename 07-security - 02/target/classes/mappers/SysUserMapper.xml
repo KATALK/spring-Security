@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="security07.mapper.SysUserMapper">
+
+    <resultMap id="selectByUserNameMap" type="security07.model.SysUser">
+        <id property="id" column="id"></id>
+        <result property="username" column="username"></result>
+        <result property="password" column="password"></result>
+        <collection property="sysRoleList" ofType="security07.model.SysRole">
+            <id property="id" column="roleId"></id>
+            <result property="role" column="role"></result>
+        </collection>
+    </resultMap>
+
+    <select id="selectByUserName" parameterType="java.lang.String" resultMap="selectByUserNameMap">
+        select
+         a.id,
+         a.username,
+         a.password,
+         c.id as "roleId",c.role
+         from sys_user a
+         left outer join sys_user_role b on b.sys_user_id = a.id
+         left outer join sys_role c on c.id = b.sys_role_id
+         where a.username = #{username}
+    </select>
+</mapper>
